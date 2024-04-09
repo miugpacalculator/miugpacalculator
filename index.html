@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPA Calculator</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        img{
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <img src="images/miu.jpg">
+    <h2>MIU GPA Calculator</h2>
+    <div id="inputSection">
+        <label for="numSubjects">Enter the number of Course Units:</label><br>
+        <input type="number" id="numSubjects">
+        <button onclick="getMarks()">Submit</button>
+    </div>
+
+    <div id="marksSection" style="display: none;">
+        <h3>Enter marks for each subject:</h3>
+        <div id="subjectMarks"></div>
+        <button onclick="calculateGPA()" style="margin-top: 10px">Calculate GPA</button>
+    </div>
+
+    <div id="result" style="display: none;">
+        <h3>Your GPA is: <span id="gpa"></span></h3>
+    </div>
+    <p>Developed by Eli</p>
+
+    <script>
+        function getMarks() {
+            var numSubjects = document.getElementById("numSubjects").value;
+            var marksSection = document.getElementById("marksSection");
+            var subjectMarks = document.getElementById("subjectMarks");
+
+            subjectMarks.innerHTML = "";
+
+            for (var i = 1; i <= numSubjects; i++) {
+                var label = document.createElement("label");
+                label.innerHTML = "Course Unit " + i + ": ";
+                var input = document.createElement("input");
+                input.type = "number";
+                input.id = "marks" + i;
+                subjectMarks.appendChild(label);
+                subjectMarks.appendChild(input);
+                subjectMarks.appendChild(document.createElement("br"));
+            }
+
+            marksSection.style.display = "block";
+        }
+
+        function calculateGPA() {
+            var numSubjects = document.getElementById("numSubjects").value;
+            var totalPoints = 0;
+            var totalCredits = 0;
+
+            for (var i = 1; i <= numSubjects; i++) {
+                var marks = parseInt(document.getElementById("marks" + i).value);
+
+                var credits;
+                if (marks >= 80 && marks <= 100) {
+                    credits = 5.0;
+                } else if (marks >= 75 && marks <= 79) {
+                    credits = 4.5;
+                } else if (marks >= 70 && marks <= 74) {
+                    credits = 4.0;
+                } else if (marks >= 65 && marks <= 69) {
+                    credits = 3.5;
+                } else if (marks >= 60 && marks <= 64) {
+                    credits = 3.0;
+                } else if (marks >= 55 && marks <= 59) {
+                    credits = 3.0;
+                } else if (marks >= 50 && marks <= 54) {
+                    credits = 3.0;
+                } else {
+                    credits = 0.0; // Assuming 0 credits for marks below 60
+                }
+
+                totalPoints += credits;
+                totalCredits += credits;
+            }
+
+            var gpa = totalPoints / numSubjects; // Divide total points by number of subjects
+            document.getElementById("gpa").innerText = gpa.toFixed(2);
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
+</body>
+</html>
